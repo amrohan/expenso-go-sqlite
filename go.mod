@@ -4,6 +4,7 @@ go 1.21.5
 
 require (
 	entgo.io/ent v0.12.5
+	github.com/go-chi/chi/v5 v5.0.10
 	github.com/mattn/go-sqlite3 v1.14.18
 )
 
