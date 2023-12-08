@@ -63,7 +63,7 @@ func Icon(v string) predicate.Category {
 }
 
 // UserId applies equality check predicate on the "userId" field. It's identical to UserIdEQ.
-func UserId(v int) predicate.Category {
+func UserId(v string) predicate.Category {
 	return predicate.Category(sql.FieldEQ(FieldUserId, v))
 }
 
@@ -198,43 +198,68 @@ func IconContainsFold(v string) predicate.Category {
 }
 
 // UserIdEQ applies the EQ predicate on the "userId" field.
-func UserIdEQ(v int) predicate.Category {
+func UserIdEQ(v string) predicate.Category {
 	return predicate.Category(sql.FieldEQ(FieldUserId, v))
 }
 
 // UserIdNEQ applies the NEQ predicate on the "userId" field.
-func UserIdNEQ(v int) predicate.Category {
+func UserIdNEQ(v string) predicate.Category {
 	return predicate.Category(sql.FieldNEQ(FieldUserId, v))
 }
 
 // UserIdIn applies the In predicate on the "userId" field.
-func UserIdIn(vs ...int) predicate.Category {
+func UserIdIn(vs ...string) predicate.Category {
 	return predicate.Category(sql.FieldIn(FieldUserId, vs...))
 }
 
 // UserIdNotIn applies the NotIn predicate on the "userId" field.
-func UserIdNotIn(vs ...int) predicate.Category {
+func UserIdNotIn(vs ...string) predicate.Category {
 	return predicate.Category(sql.FieldNotIn(FieldUserId, vs...))
 }
 
 // UserIdGT applies the GT predicate on the "userId" field.
-func UserIdGT(v int) predicate.Category {
+func UserIdGT(v string) predicate.Category {
 	return predicate.Category(sql.FieldGT(FieldUserId, v))
 }
 
 // UserIdGTE applies the GTE predicate on the "userId" field.
-func UserIdGTE(v int) predicate.Category {
+func UserIdGTE(v string) predicate.Category {
 	return predicate.Category(sql.FieldGTE(FieldUserId, v))
 }
 
 // UserIdLT applies the LT predicate on the "userId" field.
-func UserIdLT(v int) predicate.Category {
+func UserIdLT(v string) predicate.Category {
 	return predicate.Category(sql.FieldLT(FieldUserId, v))
 }
 
 // UserIdLTE applies the LTE predicate on the "userId" field.
-func UserIdLTE(v int) predicate.Category {
+func UserIdLTE(v string) predicate.Category {
 	return predicate.Category(sql.FieldLTE(FieldUserId, v))
+}
+
+// UserIdContains applies the Contains predicate on the "userId" field.
+func UserIdContains(v string) predicate.Category {
+	return predicate.Category(sql.FieldContains(FieldUserId, v))
+}
+
+// UserIdHasPrefix applies the HasPrefix predicate on the "userId" field.
+func UserIdHasPrefix(v string) predicate.Category {
+	return predicate.Category(sql.FieldHasPrefix(FieldUserId, v))
+}
+
+// UserIdHasSuffix applies the HasSuffix predicate on the "userId" field.
+func UserIdHasSuffix(v string) predicate.Category {
+	return predicate.Category(sql.FieldHasSuffix(FieldUserId, v))
+}
+
+// UserIdEqualFold applies the EqualFold predicate on the "userId" field.
+func UserIdEqualFold(v string) predicate.Category {
+	return predicate.Category(sql.FieldEqualFold(FieldUserId, v))
+}
+
+// UserIdContainsFold applies the ContainsFold predicate on the "userId" field.
+func UserIdContainsFold(v string) predicate.Category {
+	return predicate.Category(sql.FieldContainsFold(FieldUserId, v))
 }
 
 // And groups predicates with the AND operator between them.

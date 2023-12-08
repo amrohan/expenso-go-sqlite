@@ -38,6 +38,14 @@ func main() {
         r.Delete("/transactions/{id}", handlers.DeleteTransaction(client))
     })
 
+    r.Group(func(r chi.Router) {
+        r.Get("/categories",handlers.GetAllCategories(client))
+        r.Get("/categories/{id}",handlers.GetCategoriesByCategoryId(client))
+        r.Get("/categories/user/{id}",handlers.GetCategoriesByUserId(client))
+        r.Post("/categories",handlers.CreateCategory(client))
+        r.Put("/categories/{id}",handlers.UpdateCategory(client))
+        r.Delete("/categories/{id}",handlers.DeleteCategoryById(client))
+    })
 
 
     fmt.Println("Server is started")

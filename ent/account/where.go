@@ -63,7 +63,7 @@ func Icon(v string) predicate.Account {
 }
 
 // UserId applies equality check predicate on the "userId" field. It's identical to UserIdEQ.
-func UserId(v int) predicate.Account {
+func UserId(v string) predicate.Account {
 	return predicate.Account(sql.FieldEQ(FieldUserId, v))
 }
 
@@ -198,43 +198,68 @@ func IconContainsFold(v string) predicate.Account {
 }
 
 // UserIdEQ applies the EQ predicate on the "userId" field.
-func UserIdEQ(v int) predicate.Account {
+func UserIdEQ(v string) predicate.Account {
 	return predicate.Account(sql.FieldEQ(FieldUserId, v))
 }
 
 // UserIdNEQ applies the NEQ predicate on the "userId" field.
-func UserIdNEQ(v int) predicate.Account {
+func UserIdNEQ(v string) predicate.Account {
 	return predicate.Account(sql.FieldNEQ(FieldUserId, v))
 }
 
 // UserIdIn applies the In predicate on the "userId" field.
-func UserIdIn(vs ...int) predicate.Account {
+func UserIdIn(vs ...string) predicate.Account {
 	return predicate.Account(sql.FieldIn(FieldUserId, vs...))
 }
 
 // UserIdNotIn applies the NotIn predicate on the "userId" field.
-func UserIdNotIn(vs ...int) predicate.Account {
+func UserIdNotIn(vs ...string) predicate.Account {
 	return predicate.Account(sql.FieldNotIn(FieldUserId, vs...))
 }
 
 // UserIdGT applies the GT predicate on the "userId" field.
-func UserIdGT(v int) predicate.Account {
+func UserIdGT(v string) predicate.Account {
 	return predicate.Account(sql.FieldGT(FieldUserId, v))
 }
 
 // UserIdGTE applies the GTE predicate on the "userId" field.
-func UserIdGTE(v int) predicate.Account {
+func UserIdGTE(v string) predicate.Account {
 	return predicate.Account(sql.FieldGTE(FieldUserId, v))
 }
 
 // UserIdLT applies the LT predicate on the "userId" field.
-func UserIdLT(v int) predicate.Account {
+func UserIdLT(v string) predicate.Account {
 	return predicate.Account(sql.FieldLT(FieldUserId, v))
 }
 
 // UserIdLTE applies the LTE predicate on the "userId" field.
-func UserIdLTE(v int) predicate.Account {
+func UserIdLTE(v string) predicate.Account {
 	return predicate.Account(sql.FieldLTE(FieldUserId, v))
+}
+
+// UserIdContains applies the Contains predicate on the "userId" field.
+func UserIdContains(v string) predicate.Account {
+	return predicate.Account(sql.FieldContains(FieldUserId, v))
+}
+
+// UserIdHasPrefix applies the HasPrefix predicate on the "userId" field.
+func UserIdHasPrefix(v string) predicate.Account {
+	return predicate.Account(sql.FieldHasPrefix(FieldUserId, v))
+}
+
+// UserIdHasSuffix applies the HasSuffix predicate on the "userId" field.
+func UserIdHasSuffix(v string) predicate.Account {
+	return predicate.Account(sql.FieldHasSuffix(FieldUserId, v))
+}
+
+// UserIdEqualFold applies the EqualFold predicate on the "userId" field.
+func UserIdEqualFold(v string) predicate.Account {
+	return predicate.Account(sql.FieldEqualFold(FieldUserId, v))
+}
+
+// UserIdContainsFold applies the ContainsFold predicate on the "userId" field.
+func UserIdContainsFold(v string) predicate.Account {
+	return predicate.Account(sql.FieldContainsFold(FieldUserId, v))
 }
 
 // And groups predicates with the AND operator between them.

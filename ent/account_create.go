@@ -32,8 +32,8 @@ func (ac *AccountCreate) SetIcon(s string) *AccountCreate {
 }
 
 // SetUserId sets the "userId" field.
-func (ac *AccountCreate) SetUserId(i int) *AccountCreate {
-	ac.mutation.SetUserId(i)
+func (ac *AccountCreate) SetUserId(s string) *AccountCreate {
+	ac.mutation.SetUserId(s)
 	return ac
 }
 
@@ -127,7 +127,7 @@ func (ac *AccountCreate) createSpec() (*Account, *sqlgraph.CreateSpec) {
 		_node.Icon = value
 	}
 	if value, ok := ac.mutation.UserId(); ok {
-		_spec.SetField(account.FieldUserId, field.TypeInt, value)
+		_spec.SetField(account.FieldUserId, field.TypeString, value)
 		_node.UserId = value
 	}
 	return _node, _spec

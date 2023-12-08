@@ -32,8 +32,8 @@ func (cc *CategoryCreate) SetIcon(s string) *CategoryCreate {
 }
 
 // SetUserId sets the "userId" field.
-func (cc *CategoryCreate) SetUserId(i int) *CategoryCreate {
-	cc.mutation.SetUserId(i)
+func (cc *CategoryCreate) SetUserId(s string) *CategoryCreate {
+	cc.mutation.SetUserId(s)
 	return cc
 }
 
@@ -127,7 +127,7 @@ func (cc *CategoryCreate) createSpec() (*Category, *sqlgraph.CreateSpec) {
 		_node.Icon = value
 	}
 	if value, ok := cc.mutation.UserId(); ok {
-		_spec.SetField(category.FieldUserId, field.TypeInt, value)
+		_spec.SetField(category.FieldUserId, field.TypeString, value)
 		_node.UserId = value
 	}
 	return _node, _spec

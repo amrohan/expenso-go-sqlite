@@ -56,23 +56,16 @@ func (au *AccountUpdate) SetNillableIcon(s *string) *AccountUpdate {
 }
 
 // SetUserId sets the "userId" field.
-func (au *AccountUpdate) SetUserId(i int) *AccountUpdate {
-	au.mutation.ResetUserId()
-	au.mutation.SetUserId(i)
+func (au *AccountUpdate) SetUserId(s string) *AccountUpdate {
+	au.mutation.SetUserId(s)
 	return au
 }
 
 // SetNillableUserId sets the "userId" field if the given value is not nil.
-func (au *AccountUpdate) SetNillableUserId(i *int) *AccountUpdate {
-	if i != nil {
-		au.SetUserId(*i)
+func (au *AccountUpdate) SetNillableUserId(s *string) *AccountUpdate {
+	if s != nil {
+		au.SetUserId(*s)
 	}
-	return au
-}
-
-// AddUserId adds i to the "userId" field.
-func (au *AccountUpdate) AddUserId(i int) *AccountUpdate {
-	au.mutation.AddUserId(i)
 	return au
 }
 
@@ -124,10 +117,7 @@ func (au *AccountUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		_spec.SetField(account.FieldIcon, field.TypeString, value)
 	}
 	if value, ok := au.mutation.UserId(); ok {
-		_spec.SetField(account.FieldUserId, field.TypeInt, value)
-	}
-	if value, ok := au.mutation.AddedUserId(); ok {
-		_spec.AddField(account.FieldUserId, field.TypeInt, value)
+		_spec.SetField(account.FieldUserId, field.TypeString, value)
 	}
 	if n, err = sqlgraph.UpdateNodes(ctx, au.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
@@ -178,23 +168,16 @@ func (auo *AccountUpdateOne) SetNillableIcon(s *string) *AccountUpdateOne {
 }
 
 // SetUserId sets the "userId" field.
-func (auo *AccountUpdateOne) SetUserId(i int) *AccountUpdateOne {
-	auo.mutation.ResetUserId()
-	auo.mutation.SetUserId(i)
+func (auo *AccountUpdateOne) SetUserId(s string) *AccountUpdateOne {
+	auo.mutation.SetUserId(s)
 	return auo
 }
 
 // SetNillableUserId sets the "userId" field if the given value is not nil.
-func (auo *AccountUpdateOne) SetNillableUserId(i *int) *AccountUpdateOne {
-	if i != nil {
-		auo.SetUserId(*i)
+func (auo *AccountUpdateOne) SetNillableUserId(s *string) *AccountUpdateOne {
+	if s != nil {
+		auo.SetUserId(*s)
 	}
-	return auo
-}
-
-// AddUserId adds i to the "userId" field.
-func (auo *AccountUpdateOne) AddUserId(i int) *AccountUpdateOne {
-	auo.mutation.AddUserId(i)
 	return auo
 }
 
@@ -276,10 +259,7 @@ func (auo *AccountUpdateOne) sqlSave(ctx context.Context) (_node *Account, err e
 		_spec.SetField(account.FieldIcon, field.TypeString, value)
 	}
 	if value, ok := auo.mutation.UserId(); ok {
-		_spec.SetField(account.FieldUserId, field.TypeInt, value)
-	}
-	if value, ok := auo.mutation.AddedUserId(); ok {
-		_spec.AddField(account.FieldUserId, field.TypeInt, value)
+		_spec.SetField(account.FieldUserId, field.TypeString, value)
 	}
 	_node = &Account{config: auo.config}
 	_spec.Assign = _node.assignValues

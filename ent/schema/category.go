@@ -16,7 +16,7 @@ func (Category) Fields() []ent.Field {
 		field.Int("id"),
 		field.String("name"),
 		field.String("icon"),
-		field.Int("userId"),
+		field.String("userId"),
 	}
 }
 

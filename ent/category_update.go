@@ -56,23 +56,16 @@ func (cu *CategoryUpdate) SetNillableIcon(s *string) *CategoryUpdate {
 }
 
 // SetUserId sets the "userId" field.
-func (cu *CategoryUpdate) SetUserId(i int) *CategoryUpdate {
-	cu.mutation.ResetUserId()
-	cu.mutation.SetUserId(i)
+func (cu *CategoryUpdate) SetUserId(s string) *CategoryUpdate {
+	cu.mutation.SetUserId(s)
 	return cu
 }
 
 // SetNillableUserId sets the "userId" field if the given value is not nil.
-func (cu *CategoryUpdate) SetNillableUserId(i *int) *CategoryUpdate {
-	if i != nil {
-		cu.SetUserId(*i)
+func (cu *CategoryUpdate) SetNillableUserId(s *string) *CategoryUpdate {
+	if s != nil {
+		cu.SetUserId(*s)
 	}
-	return cu
-}
-
-// AddUserId adds i to the "userId" field.
-func (cu *CategoryUpdate) AddUserId(i int) *CategoryUpdate {
-	cu.mutation.AddUserId(i)
 	return cu
 }
 
@@ -124,10 +117,7 @@ func (cu *CategoryUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		_spec.SetField(category.FieldIcon, field.TypeString, value)
 	}
 	if value, ok := cu.mutation.UserId(); ok {
-		_spec.SetField(category.FieldUserId, field.TypeInt, value)
-	}
-	if value, ok := cu.mutation.AddedUserId(); ok {
-		_spec.AddField(category.FieldUserId, field.TypeInt, value)
+		_spec.SetField(category.FieldUserId, field.TypeString, value)
 	}
 	if n, err = sqlgraph.UpdateNodes(ctx, cu.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
@@ -178,23 +168,16 @@ func (cuo *CategoryUpdateOne) SetNillableIcon(s *string) *CategoryUpdateOne {
 }
 
 // SetUserId sets the "userId" field.
-func (cuo *CategoryUpdateOne) SetUserId(i int) *CategoryUpdateOne {
-	cuo.mutation.ResetUserId()
-	cuo.mutation.SetUserId(i)
+func (cuo *CategoryUpdateOne) SetUserId(s string) *CategoryUpdateOne {
+	cuo.mutation.SetUserId(s)
 	return cuo
 }
 
 // SetNillableUserId sets the "userId" field if the given value is not nil.
-func (cuo *CategoryUpdateOne) SetNillableUserId(i *int) *CategoryUpdateOne {
-	if i != nil {
-		cuo.SetUserId(*i)
+func (cuo *CategoryUpdateOne) SetNillableUserId(s *string) *CategoryUpdateOne {
+	if s != nil {
+		cuo.SetUserId(*s)
 	}
-	return cuo
-}
-
-// AddUserId adds i to the "userId" field.
-func (cuo *CategoryUpdateOne) AddUserId(i int) *CategoryUpdateOne {
-	cuo.mutation.AddUserId(i)
 	return cuo
 }
 
@@ -276,10 +259,7 @@ func (cuo *CategoryUpdateOne) sqlSave(ctx context.Context) (_node *Category, err
 		_spec.SetField(category.FieldIcon, field.TypeString, value)
 	}
 	if value, ok := cuo.mutation.UserId(); ok {
-		_spec.SetField(category.FieldUserId, field.TypeInt, value)
-	}
-	if value, ok := cuo.mutation.AddedUserId(); ok {
-		_spec.AddField(category.FieldUserId, field.TypeInt, value)
+		_spec.SetField(category.FieldUserId, field.TypeString, value)
 	}
 	_node = &Category{config: cuo.config}
 	_spec.Assign = _node.assignValues

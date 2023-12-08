@@ -11,7 +11,7 @@ import (
 	"github.com/go-chi/chi/v5"
 )
 
-type TransactionModel struct{
+type Transaction struct{
 	Id int `json:"id"`
 	UserId string `json:"user_id"`
 	Title string `json:"title"`
@@ -26,13 +26,10 @@ type TransactionModel struct{
 }
 
 
-type Transactions []TransactionModel
-
-
 
 func CreateTransaction(db *ent.Client) http.HandlerFunc{
 	return func(w http.ResponseWriter, r *http.Request){
-		var transaction TransactionModel
+		var transaction Transaction
 
 		if err := json.NewDecoder(r.Body).Decode(&transaction); err != nil{
 			http.Error(w, err.Error(), http.StatusBadRequest)
@@ -185,7 +182,7 @@ func UpdateTransaction(db *ent.Client) http.HandlerFunc{
 			return
 		}
 
-		var transaction TransactionModel
+		var transaction Transaction
 
 		if err := json.NewDecoder(r.Body).Decode(&transaction); err != nil{
 			http.Error(w, err.Error(), http.StatusBadRequest)

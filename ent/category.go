@@ -21,7 +21,7 @@ type Category struct {
 	// Icon holds the value of the "icon" field.
 	Icon string `json:"icon,omitempty"`
 	// UserId holds the value of the "userId" field.
-	UserId       int `json:"userId,omitempty"`
+	UserId       string `json:"userId,omitempty"`
 	selectValues sql.SelectValues
 }
 
@@ -30,9 +30,9 @@ func (*Category) scanValues(columns []string) ([]any, error) {
 	values := make([]any, len(columns))
 	for i := range columns {
 		switch columns[i] {
-		case category.FieldID, category.FieldUserId:
+		case category.FieldID:
 			values[i] = new(sql.NullInt64)
-		case category.FieldName, category.FieldIcon:
+		case category.FieldName, category.FieldIcon, category.FieldUserId:
 			values[i] = new(sql.NullString)
 		default:
 			values[i] = new(sql.UnknownType)
@@ -68,10 +68,10 @@ func (c *Category) assignValues(columns []string, values []any) error {
 				c.Icon = value.String
 			}
 		case category.FieldUserId:
-			if value, ok := values[i].(*sql.NullInt64); !ok {
+			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field userId", values[i])
 			} else if value.Valid {
-				c.UserId = int(value.Int64)
+				c.UserId = value.String
 			}
 		default:
 			c.selectValues.Set(columns[i], values[i])
@@ -116,7 +116,7 @@ func (c *Category) String() string {
 	builder.WriteString(c.Icon)
 	builder.WriteString(", ")
 	builder.WriteString("userId=")
-	builder.WriteString(fmt.Sprintf("%v", c.UserId))
+	builder.WriteString(c.UserId)
 	builder.WriteByte(')')
 	return builder.String()
 }

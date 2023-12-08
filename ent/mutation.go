@@ -39,8 +39,7 @@ type AccountMutation struct {
 	id            *int
 	name          *string
 	icon          *string
-	userId        *int
-	adduserId     *int
+	userId        *string
 	clearedFields map[string]struct{}
 	done          bool
 	oldValue      func(context.Context) (*Account, error)
@@ -224,13 +223,12 @@ func (m *AccountMutation) ResetIcon() {
 }
 
 // SetUserId sets the "userId" field.
-func (m *AccountMutation) SetUserId(i int) {
-	m.userId = &i
-	m.adduserId = nil
+func (m *AccountMutation) SetUserId(s string) {
+	m.userId = &s
 }
 
 // UserId returns the value of the "userId" field in the mutation.
-func (m *AccountMutation) UserId() (r int, exists bool) {
+func (m *AccountMutation) UserId() (r string, exists bool) {
 	v := m.userId
 	if v == nil {
 		return
@@ -241,7 +239,7 @@ func (m *AccountMutation) UserId() (r int, exists bool) {
 // OldUserId returns the old "userId" field's value of the Account entity.
 // If the Account object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *AccountMutation) OldUserId(ctx context.Context) (v int, err error) {
+func (m *AccountMutation) OldUserId(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldUserId is only allowed on UpdateOne operations")
 	}
@@ -255,28 +253,9 @@ func (m *AccountMutation) OldUserId(ctx context.Context) (v int, err error) {
 	return oldValue.UserId, nil
 }
 
-// AddUserId adds i to the "userId" field.
-func (m *AccountMutation) AddUserId(i int) {
-	if m.adduserId != nil {
-		*m.adduserId += i
-	} else {
-		m.adduserId = &i
-	}
-}
-
-// AddedUserId returns the value that was added to the "userId" field in this mutation.
-func (m *AccountMutation) AddedUserId() (r int, exists bool) {
-	v := m.adduserId
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
 // ResetUserId resets all changes to the "userId" field.
 func (m *AccountMutation) ResetUserId() {
 	m.userId = nil
-	m.adduserId = nil
 }
 
 // Where appends a list predicates to the AccountMutation builder.
@@ -376,7 +355,7 @@ func (m *AccountMutation) SetField(name string, value ent.Value) error {
 		m.SetIcon(v)
 		return nil
 	case account.FieldUserId:
-		v, ok := value.(int)
+		v, ok := value.(string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
@@ -389,21 +368,13 @@ func (m *AccountMutation) SetField(name string, value ent.Value) error {
 // AddedFields returns all numeric fields that were incremented/decremented during
 // this mutation.
 func (m *AccountMutation) AddedFields() []string {
-	var fields []string
-	if m.adduserId != nil {
-		fields = append(fields, account.FieldUserId)
-	}
-	return fields
+	return nil
 }
 
 // AddedField returns the numeric value that was incremented/decremented on a field
 // with the given name. The second boolean return value indicates that this field
 // was not set, or was not defined in the schema.
 func (m *AccountMutation) AddedField(name string) (ent.Value, bool) {
-	switch name {
-	case account.FieldUserId:
-		return m.AddedUserId()
-	}
 	return nil, false
 }
 
@@ -412,13 +383,6 @@ func (m *AccountMutation) AddedField(name string) (ent.Value, bool) {
 // type.
 func (m *AccountMutation) AddField(name string, value ent.Value) error {
 	switch name {
-	case account.FieldUserId:
-		v, ok := value.(int)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.AddUserId(v)
-		return nil
 	}
 	return fmt.Errorf("unknown Account numeric field %s", name)
 }
@@ -515,8 +479,7 @@ type CategoryMutation struct {
 	id            *int
 	name          *string
 	icon          *string
-	userId        *int
-	adduserId     *int
+	userId        *string
 	clearedFields map[string]struct{}
 	done          bool
 	oldValue      func(context.Context) (*Category, error)
@@ -700,13 +663,12 @@ func (m *CategoryMutation) ResetIcon() {
 }
 
 // SetUserId sets the "userId" field.
-func (m *CategoryMutation) SetUserId(i int) {
-	m.userId = &i
-	m.adduserId = nil
+func (m *CategoryMutation) SetUserId(s string) {
+	m.userId = &s
 }
 
 // UserId returns the value of the "userId" field in the mutation.
-func (m *CategoryMutation) UserId() (r int, exists bool) {
+func (m *CategoryMutation) UserId() (r string, exists bool) {
 	v := m.userId
 	if v == nil {
 		return
@@ -717,7 +679,7 @@ func (m *CategoryMutation) UserId() (r int, exists bool) {
 // OldUserId returns the old "userId" field's value of the Category entity.
 // If the Category object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *CategoryMutation) OldUserId(ctx context.Context) (v int, err error) {
+func (m *CategoryMutation) OldUserId(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldUserId is only allowed on UpdateOne operations")
 	}
@@ -731,28 +693,9 @@ func (m *CategoryMutation) OldUserId(ctx context.Context) (v int, err error) {
 	return oldValue.UserId, nil
 }
 
-// AddUserId adds i to the "userId" field.
-func (m *CategoryMutation) AddUserId(i int) {
-	if m.adduserId != nil {
-		*m.adduserId += i
-	} else {
-		m.adduserId = &i
-	}
-}
-
-// AddedUserId returns the value that was added to the "userId" field in this mutation.
-func (m *CategoryMutation) AddedUserId() (r int, exists bool) {
-	v := m.adduserId
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
 // ResetUserId resets all changes to the "userId" field.
 func (m *CategoryMutation) ResetUserId() {
 	m.userId = nil
-	m.adduserId = nil
 }
 
 // Where appends a list predicates to the CategoryMutation builder.
@@ -852,7 +795,7 @@ func (m *CategoryMutation) SetField(name string, value ent.Value) error {
 		m.SetIcon(v)
 		return nil
 	case category.FieldUserId:
-		v, ok := value.(int)
+		v, ok := value.(string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
@@ -865,21 +808,13 @@ func (m *CategoryMutation) SetField(name string, value ent.Value) error {
 // AddedFields returns all numeric fields that were incremented/decremented during
 // this mutation.
 func (m *CategoryMutation) AddedFields() []string {
-	var fields []string
-	if m.adduserId != nil {
-		fields = append(fields, category.FieldUserId)
-	}
-	return fields
+	return nil
 }
 
 // AddedField returns the numeric value that was incremented/decremented on a field
 // with the given name. The second boolean return value indicates that this field
 // was not set, or was not defined in the schema.
 func (m *CategoryMutation) AddedField(name string) (ent.Value, bool) {
-	switch name {
-	case category.FieldUserId:
-		return m.AddedUserId()
-	}
 	return nil, false
 }
 
@@ -888,13 +823,6 @@ func (m *CategoryMutation) AddedField(name string) (ent.Value, bool) {
 // type.
 func (m *CategoryMutation) AddField(name string, value ent.Value) error {
 	switch name {
-	case category.FieldUserId:
-		v, ok := value.(int)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.AddUserId(v)
-		return nil
 	}
 	return fmt.Errorf("unknown Category numeric field %s", name)
 }

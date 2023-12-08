@@ -13,7 +13,7 @@ var (
 		{Name: "id", Type: field.TypeInt, Increment: true},
 		{Name: "name", Type: field.TypeString},
 		{Name: "icon", Type: field.TypeString},
-		{Name: "user_id", Type: field.TypeInt},
+		{Name: "user_id", Type: field.TypeString},
 	}
 	// AccountsTable holds the schema information for the "accounts" table.
 	AccountsTable = &schema.Table{
@@ -26,7 +26,7 @@ var (
 		{Name: "id", Type: field.TypeInt, Increment: true},
 		{Name: "name", Type: field.TypeString},
 		{Name: "icon", Type: field.TypeString},
-		{Name: "user_id", Type: field.TypeInt},
+		{Name: "user_id", Type: field.TypeString},
 	}
 	// CategoriesTable holds the schema information for the "categories" table.
 	CategoriesTable = &schema.Table{
