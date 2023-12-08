@@ -47,6 +47,14 @@ func main() {
         r.Delete("/categories/{id}",handlers.DeleteCategoryById(client))
     })
 
+    r.Group(func(r chi.Router) {
+        r.Get("/accounts",handlers.GetAllAccounts(client))
+        r.Get("/accounts/{id}",handlers.GetAccountByAccountId(client))
+        r.Get("/accounts/user/{id}",handlers.GetAccountsByUserId(client))
+        r.Post("/accounts",handlers.CreateAccount(client))
+        r.Put("/accounts/{id}",handlers.UpdateAccount(client))
+        r.Delete("/accounts/{id}",handlers.DeleteAccountById(client))
+    })
 
     fmt.Println("Server is started")
     http.ListenAndServe(":3000", r)

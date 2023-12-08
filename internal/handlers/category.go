@@ -122,5 +122,7 @@ func DeleteCategoryById(db *ent.Client) http.HandlerFunc{
 			return
 		}
 		w.WriteHeader(http.StatusOK)
+		json.NewEncoder(w).Encode(map[string]string{"message": "Category deleted successfully"})
+
 	}
 }

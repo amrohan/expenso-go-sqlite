@@ -230,6 +230,7 @@ func DeleteTransaction(db *ent.Client) http.HandlerFunc{
 		}
 
 		w.Header().Set("Content-Type", "application/json")
-		json.NewEncoder(w).Encode("Item deleted")
+		json.NewEncoder(w).Encode(map[string]string{"message": "Transaction deleted successfully"})
+
 	}
 }
