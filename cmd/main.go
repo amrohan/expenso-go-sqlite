@@ -12,54 +12,64 @@ import (
 )
 
 func main() {
-    client, err := db.ConnectToDB()
+	client, err := db.ConnectToDB()
 
-    if err != nil {
-        panic(err)
-    }
+	if err != nil {
+		panic(err)
+	}
 
-    r := chi.NewRouter()
-    r.Use(middleware.Logger,middleware.CleanPath)
+	handler := handlers.NewHandler(client)
 
-    r.Get("/", func(w http.ResponseWriter, r *http.Request) {
-        w.Write([]byte("Hello World!"))
-    })
+	r := chi.NewRouter()
+	r.Use(middleware.Logger, middleware.CleanPath)
 
-    r.Post("/login", handlers.Login(client))
-    r.Post("/register", handlers.Register(client))
-    
-    r.Group(func(r chi.Router) {
-        r.Get("/transactions", handlers.GetAllTransaction(client))
-        r.Get("/transactions/{id}", handlers.GetTransactionByTransactionId(client))
-        r.Get("/transactions/user/{id}", handlers.GetTransactionByUserId(client))
-        r.Get("/transactions/category/{id}", handlers.GetTransactionsByCategoryId(client))
-        r.Get("/transactions/account/{id}", handlers.GetTransactionsByAccountId(client))
-        r.Get("/transactions/{month}-{year}", handlers.GetTransactionBasedOnMonthandYear(client))
-        r.Post("/transactions", handlers.CreateTransaction(client))
-        r.Put("/transactions/{id}", handlers.UpdateTransaction(client))
-        r.Delete("/transactions/{id}", handlers.DeleteTransaction(client))
-    })
+	r.Get("/", func(w http.ResponseWriter, r *http.Request) {
+		w.Write([]byte("Hello World!"))
+	})
 
-    r.Group(func(r chi.Router) {
-        r.Get("/categories",handlers.GetAllCategories(client))
-        r.Get("/categories/{id}",handlers.GetCategoriesByCategoryId(client))
-        r.Get("/categories/user/{id}",handlers.GetCategoriesByUserId(client))
-        r.Post("/categories",handlers.CreateCategory(client))
-        r.Put("/categories/{id}",handlers.UpdateCategory(client))
-        r.Delete("/categories/{id}",handlers.DeleteCategoryById(client))
-    })
+	r.Post("/login", handlers.Login(client))
+	r.Post("/register", handlers.Register(client))
 
-    r.Group(func(r chi.Router) {
-        r.Get("/accounts",handlers.GetAllAccounts(client))
-        r.Get("/accounts/{id}",handlers.GetAccountByAccountId(client))
-        r.Get("/accounts/user/{id}",handlers.GetAccountsByUserId(client))
-        r.Post("/accounts",handlers.CreateAccount(client))
-        r.Put("/accounts/{id}",handlers.UpdateAccount(client))
-        r.Delete("/accounts/{id}",handlers.DeleteAccountById(client))
-    })
+	r.Route("/transactions", func(r chi.Router) {
+		r.Get("/", handler.GetAllTransaction)
+		r.Get("/{id}", handler.GetTransactionByTransactionId)
+		r.Get("/user/{id}", handler.GetTransactionByUserId)
+		r.Get("/category/{id}", handler.GetTransactionsByCategoryId)
+		r.Get("/account/{id}", handler.GetTransactionsByAccountId)
+		r.Get("/{month}-{year}", handler.GetTransactionBasedOnMonthandYear)
+		r.Post("/", handler.CreateTransaction)
+		r.Put("/{id}", handler.UpdateTransaction)
+		r.Delete("/{id}", handler.DeleteTransaction)
+	})
 
-    fmt.Println("Server is started")
-    http.ListenAndServe(":3000", r)
+	r.Route("/categories", func(r chi.Router) {
+		r.Get("/", handler.GetAllCategories)
+		r.Get("/{id}", handler.GetCategoriesByCategoryId)
+		r.Get("/user/{id}", handler.GetCategoriesByUserId)
+		r.Post("/", handler.CreateCategory)
+		r.Put("/{id}", handler.UpdateCategory)
+		r.Delete("/{id}", handler.DeleteCategoryById)
+	})
+
+	r.Route("/accounts", func(r chi.Router) {
+		r.Get("/", handler.GetAllAccounts)
+		r.Get("/{id}", handler.GetAccountByAccountId)
+		r.Get("/user/{id}", handler.GetAccountsByUserId)
+		r.Post("/", handler.CreateAccount)
+		r.Put("/{id}", handler.UpdateAccount)
+		r.Delete("/{id}", handler.DeleteAccountById)
+
+	})
+
+	r.Route("/users", func(r chi.Router) {
+		r.Get("/", handler.GetAllUsers)
+		r.Get("/{id}", handler.GetUserById)
+		r.Post("/", handler.CreateUser)
+		r.Put("/{id}", handler.UpdateUser)
+		r.Delete("/{id}", handler.DeleteUser)
+	})
+
+	fmt.Println("Server is started")
+	http.ListenAndServe(":3000", r)
 
 }
-
