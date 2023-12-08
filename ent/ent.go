@@ -15,6 +15,7 @@ import (
 	"github.com/amrohan/expenso-go/ent/account"
 	"github.com/amrohan/expenso-go/ent/category"
 	"github.com/amrohan/expenso-go/ent/transaction"
+	"github.com/amrohan/expenso-go/ent/user"
 )
 
 // ent aliases to avoid import conflicts in user's code.
@@ -78,6 +79,7 @@ func checkColumn(table, column string) error {
 			account.Table:     account.ValidColumn,
 			category.Table:    category.ValidColumn,
 			transaction.Table: transaction.ValidColumn,
+			user.Table:        user.ValidColumn,
 		})
 	})
 	return columnCheck(table, column)

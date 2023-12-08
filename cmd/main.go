@@ -19,12 +19,14 @@ func main() {
     }
 
     r := chi.NewRouter()
-    r.Use(middleware.Logger)
+    r.Use(middleware.Logger,middleware.CleanPath)
 
     r.Get("/", func(w http.ResponseWriter, r *http.Request) {
         w.Write([]byte("Hello World!"))
     })
 
+    r.Post("/login", handlers.Login(client))
+    r.Post("/register", handlers.Register(client))
     
     r.Group(func(r chi.Router) {
         r.Get("/transactions", handlers.GetAllTransaction(client))
