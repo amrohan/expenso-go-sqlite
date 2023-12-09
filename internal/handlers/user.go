@@ -3,12 +3,12 @@ package handlers
 import (
 	"encoding/json"
 	"net/http"
-	"strconv"
 
 	"github.com/amrohan/expenso-go/ent"
 	"github.com/amrohan/expenso-go/ent/user"
 	"github.com/amrohan/expenso-go/internal/helpers"
 	"github.com/go-chi/chi/v5"
+	"github.com/google/uuid"
 )
 
 type Handler struct {
@@ -30,7 +30,7 @@ func (db *Handler) GetAllUsers(w http.ResponseWriter, r *http.Request) {
 
 func (db *Handler) GetUserById(w http.ResponseWriter, r *http.Request) {
 	strId := chi.URLParam(r, "id")
-	id, err := strconv.Atoi(strId)
+	id, err := uuid.Parse(strId)
 
 	if err != nil {
 		helpers.SendResponse(w, http.StatusBadRequest, "Invalid ID", nil, err)
@@ -70,7 +70,7 @@ func (db *Handler) UpdateUser(w http.ResponseWriter, r *http.Request) {
 	}
 
 	strId := chi.URLParam(r, "id")
-	id, err := strconv.Atoi(strId)
+	id, err := uuid.Parse(strId)
 
 	if err != nil {
 		helpers.SendResponse(w, http.StatusBadRequest, "Please send valid ID", nil, err)
@@ -88,8 +88,7 @@ func (db *Handler) UpdateUser(w http.ResponseWriter, r *http.Request) {
 
 func (db *Handler) DeleteUser(w http.ResponseWriter, r *http.Request) {
 	strId := chi.URLParam(r, "id")
-	id, err := strconv.Atoi(strId)
-
+	id, err := uuid.Parse(strId)
 	if err != nil {
 		helpers.SendResponse(w, http.StatusBadRequest, "Invalid ID", nil, err)
 		return

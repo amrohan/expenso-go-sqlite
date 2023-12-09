@@ -6,14 +6,16 @@ import (
 
 	"github.com/amrohan/expenso-go/ent"
 	"github.com/amrohan/expenso-go/ent/user"
+	"github.com/amrohan/expenso-go/internal/helpers"
+	"github.com/google/uuid"
 	"golang.org/x/crypto/bcrypt"
 )
 
 type User struct {
-	Id       int    `json:"id"`
-	Username string `json:"username"`
-	Email    string `json:"email"`
-	Password string `json:"password"`
+	Id       uuid.UUID `json:"id"`
+	Username string    `json:"username"`
+	Email    string    `json:"email"`
+	Password string    `json:"password"`
 }
 
 func HashPassword(password string) (string, error) {
@@ -36,30 +38,31 @@ func Login(db *ent.Client) http.HandlerFunc {
 
 		err := json.NewDecoder(r.Body).Decode(&userCred)
 		if err != nil {
-			w.Write([]byte("Error decoding"))
+			helpers.SendResponse(w, http.StatusBadRequest, "Please send valid body", nil, err)
 			return
 		}
 
 		user, err := db.User.Query().Where(user.Email(userCred.Email)).Only(r.Context())
 		if err != nil {
-			w.Write([]byte("Error querying user"))
+			helpers.SendResponse(w, http.StatusBadRequest, "Invalid email", nil, err)
 			return
 		}
 
 		if !CheckPasswordHash(userCred.Password, user.Password) {
-			w.Write([]byte("Invalid password"))
+			helpers.SendResponse(w, http.StatusBadRequest, "Invalid password", nil, err)
 			return
 		}
-		w.Write([]byte("Login successful"))
+		helpers.SendResponse(w, http.StatusOK, "Login successful", nil, nil)
 	}
 }
 
 func Register(db *ent.Client) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		var user User
+		id := uuid.New()
 		err := json.NewDecoder(r.Body).Decode(&user)
 		if err != nil {
-			w.Write([]byte("Error decoding"))
+			helpers.SendResponse(w, http.StatusBadRequest, "Please send valid body", nil, err)
 			return
 		}
 		if !user.Validate() {
@@ -68,15 +71,16 @@ func Register(db *ent.Client) http.HandlerFunc {
 		}
 		hashedPassword, err := HashPassword(user.Password)
 		if err != nil {
-			w.Write([]byte("Error hashing password"))
+			helpers.SendResponse(w, http.StatusInternalServerError, "Error hashing password", nil, err)
 			return
 		}
 		user.Password = hashedPassword
-		_, err = db.User.Create().SetUsername(user.Username).SetEmail(user.Email).SetPassword(user.Password).Save(r.Context())
+		_, err = db.User.Create().SetID(id).SetUsername(user.Username).SetEmail(user.Email).SetPassword(user.Password).Save(r.Context())
 		if err != nil {
-			w.Write([]byte("Error saving user"))
+			w.Write([]byte(err.Error()))
 			return
 		}
-		w.Write([]byte("User registered successfully"))
+
+		helpers.SendResponse(w, http.StatusOK, "User created successfully", nil, nil)
 	}
 }
