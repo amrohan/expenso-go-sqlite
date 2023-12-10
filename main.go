@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"net/http"
+	"os"
 
 	"github.com/amrohan/expenso-go/api/router"
 	"github.com/amrohan/expenso-go/internal/db"
@@ -13,6 +14,10 @@ import (
 )
 
 func main() {
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "3000"
+	}
 	client, err := db.ConnectToDB()
 
 	if err != nil {
@@ -27,6 +32,9 @@ func main() {
 	router.LoadRoutes(r, handler)
 
 	fmt.Println("Server is started")
-	http.ListenAndServe(":3000", r)
+
+	// server is running on
+	fmt.Println("Server is running on port " + port)
+	http.ListenAndServe(":"+port, r)
 
 }

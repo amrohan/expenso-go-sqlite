@@ -13,11 +13,11 @@ type Account struct {
 // Fields of the Account.
 func (Account) Fields() []ent.Field {
 	return []ent.Field{
-	field.Int("id"),
-	field.String("name"),
-	field.String("icon"),
-	field.String("userId"),
-}
+		field.Int("id"),
+		field.String("name"),
+		field.String("icon"),
+		field.String("userId"),
+	}
 }
 
 // Edges of the Account.

@@ -206,6 +206,8 @@ func AuthHandler(next http.Handler) http.Handler {
 			helpers.SendResponse(w, http.StatusUnauthorized, "Unauthorized", nil, err)
 			return
 		}
+		// also check time is expired or not
+
 		// set the user context
 		ctx := context.WithValue(r.Context(), userKey("user"), claims.Username)
 		next.ServeHTTP(w, r.WithContext(ctx))
