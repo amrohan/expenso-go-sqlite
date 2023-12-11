@@ -63,7 +63,7 @@ func (db *Handler) Login(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	expirationTime := time.Now().Add(time.Minute * 5)
+	expirationTime := time.Now().Add(time.Minute * 1)
 
 	claims := &Claims{
 		Username: user.Username,
